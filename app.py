@@ -19,6 +19,21 @@ def load_assets():
 
 model, class_names = load_assets()
 
+# Open the image
+image = Image.open(uploaded_file).convert('RGB') # Ensure 3 color channels
+
+# 1. Resize to match training
+img_resized = image.resize((64, 64))
+
+# 2. Convert to array and SCALE (Crucial Step!)
+img_array = np.array(img_resized) / 255.0 
+
+# 3. Add the batch dimension (1, 64, 64, 3)
+img_array = np.expand_dims(img_array, axis=0)
+
+# Now predict
+predictions = model.predict(img_array)
+
 # 3. Sidebar for Settings
 st.sidebar.header("Settings")
 # Adding the slider you requested
